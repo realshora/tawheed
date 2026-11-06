@@ -233,6 +233,16 @@ function parseReport(text){
     // عنوان صنف (خفيف / سوبر ...)
     if(!/\d/.test(line) && ITEMS_N.includes(n)){ closeOrder(); header = line; return; }
 
+    // تحت عنوان صنف: سطر "لون عدد" من غير مقاس (مثلاً: اسود 2) = كراتين من نفس الصنف
+    if(header){
+      const hm = line.match(/^(.*?)\s*(\d+(?:\.\d+)?)\s*$/);
+      if(hm && hm[1].trim()){
+        closeOrder();
+        entries.push({ id:'e'+(++_id), kind:'carton', size:'', sizeNum:0, unit:'', item:header, color:pretty(hm[1].trim()), value:+hm[2], vtype:'count', raw:line });
+        return;
+      }
+    }
+
     // غير كده: اسم طلبية، وبعدها سطور ألوانها
     if(!orderName){ header = null; orderName = line; orderCount = 0; return; }
     const om = line.match(/^(.*?)\s*(\d+)\s*$/);
@@ -287,7 +297,7 @@ function toText(sections){
       s.groups.forEach(g => { const k = norm(g.rows[0].item); if(!(k in idx)){ idx[k] = byItem.length; byItem.push({ item:g.rows[0].item, rows:[] }); } byItem[idx[k]].rows.push(...g.rows); });
       byItem.forEach(b => {
         out.push(b.item);
-        b.rows.forEach(e => out.push(`${e.size}${!e.unit && !e.color ? e.item : ''}${e.color ? (e.unit ? ' ' : e.item + ' ') + e.color : ''}${e.value != null ? ' ' + e.value : ''}`));
+        b.rows.forEach(e => out.push(!e.size ? `${e.color}${e.value != null ? ' ' + e.value : ''}`.trim() : `${e.size}${!e.unit && !e.color ? e.item : ''}${e.color ? (e.unit ? ' ' : e.item + ' ') + e.color : ''}${e.value != null ? ' ' + e.value : ''}`));
         out.push('');
       });
       return;
