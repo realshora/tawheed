@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<title>تقرير التجهيز — التوحيد إيجيبت</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg: oklch(0.975 0.006 60);
+  --surface: oklch(1 0 0);
+  --fg: oklch(0.22 0.02 50);
+  --muted: oklch(0.52 0.02 50);
+  --border: oklch(0.89 0.012 55);
+  --accent: oklch(0.469 0.1335 45.4);
+  --accent-tint: color-mix(in oklch, var(--accent) 12%, white);
+  --gold: oklch(0.66 0.12 75);
+  --olive: oklch(0.52 0.08 130);
+  --plum: oklch(0.48 0.09 330);
+  --danger: oklch(0.58 0.19 25);
+  --font-display: 'Tajawal', sans-serif;
+  --font-body: 'IBM Plex Sans Arabic', sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);line-height:1.5;min-height:100vh;padding-bottom:calc(92px + env(safe-area-inset-bottom));}
+button{font-family:inherit;cursor:pointer;}
+.top{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5;}
+.top img{height:46px;width:auto;}
+.top h1{margin:0;font-family:var(--font-display);font-size:19px;font-weight:800;}
+.top p{margin:0;color:var(--muted);font-size:12.5px;}
+main{max-width:640px;margin:0 auto;padding:14px 14px 0;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;}
+.row label{font-family:var(--font-display);font-weight:800;font-size:15px;}
+.mini{border:1px solid var(--border);background:var(--surface);color:var(--fg);border-radius:10px;padding:6px 12px;font-weight:600;font-size:13px;}
+textarea{width:100%;min-height:36vh;resize:vertical;border:1px solid var(--border);border-radius:12px;background:var(--bg);color:var(--fg);padding:12px;font-family:var(--font-body);font-size:15px;line-height:1.7;}
+textarea:focus{outline:2px solid var(--accent);outline-offset:0;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{border-radius:999px;padding:5px 12px;font-weight:700;font-size:13px;background:var(--accent-tint);color:var(--accent);}
+.chip.gold{background:color-mix(in oklch,var(--gold) 18%,white);color:oklch(0.45 0.1 75);}
+.chip.olive{background:color-mix(in oklch,var(--olive) 16%,white);color:var(--olive);}
+.chip.plum{background:color-mix(in oklch,var(--plum) 14%,white);color:var(--plum);}
+.warn{margin-top:10px;border:1px solid color-mix(in oklch,var(--danger) 40%,white);background:color-mix(in oklch,var(--danger) 8%,white);border-radius:12px;padding:10px 12px;font-size:13.5px;}
+.warn b{color:var(--danger);}
+.warn div{direction:rtl;font-family:var(--font-body);margin-top:4px;}
+details summary{font-family:var(--font-display);font-weight:800;cursor:pointer;font-size:15px;}
+.sec{font-family:var(--font-display);font-weight:800;font-size:16px;margin:14px 0 6px;color:var(--accent);}
+.grp{margin:0 0 10px;}
+.grp h4{margin:0 0 4px;font-size:13.5px;color:var(--muted);font-weight:700;}
+.ent{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:right;border:none;background:var(--bg);border-radius:9px;padding:8px 11px;margin-bottom:4px;font-size:14.5px;color:var(--fg);}
+.ent b{font-variant-numeric:tabular-nums;color:var(--accent);}
+.ent.miss b{color:var(--danger);}
+.bigbtn{width:100%;border:none;border-radius:12px;padding:13px;font-family:var(--font-display);font-weight:800;font-size:15px;background:var(--bg);color:var(--accent);border:1px solid var(--accent);margin-top:8px;}
+.link{display:block;margin:6px auto 0;border:none;background:none;color:var(--accent);font-weight:700;font-size:14px;text-decoration:underline;}
+.bar{position:fixed;inset:auto 0 0 0;z-index:20;background:var(--surface);border-top:1px solid var(--border);padding:10px 14px calc(10px + env(safe-area-inset-bottom));}
+.bar button{display:block;width:100%;max-width:640px;margin:0 auto;border:none;border-radius:14px;padding:15px;font-family:var(--font-display);font-weight:800;font-size:17px;background:var(--accent);color:#fff;}
+.bar button:disabled{opacity:.4;}
+.toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:var(--fg);color:#fff;padding:9px 16px;border-radius:999px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s;z-index:200;}
+.toast.show{opacity:1;}
+
+/* ---------- شاشة العرض ---------- */
+.disp{display:none;position:fixed;inset:0;z-index:100;background:var(--bg);}
+.disp.show{display:block;}
+.disp-inner{position:absolute;inset:0;display:flex;flex-direction:column;gap:2cqh;container-type:size;padding:3cqh 3cqw;}
+.disp.rot .disp-inner{inset:auto;top:0;left:0;width:calc(100vh - 84px);height:100vw;transform-origin:top left;transform:translateX(100vw) rotate(90deg);}
+.disp-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex:0 0 auto;}
+.disp-top button{border:1px solid var(--border);background:var(--surface);color:var(--fg);font-weight:700;font-size:max(13px,4.4cqh);border-radius:10px;padding:1.2cqh 3cqw;}
+.disp-count{font-family:var(--font-display);font-weight:800;color:var(--muted);font-size:max(14px,5cqh);}
+.banner{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:2cqw;flex-wrap:wrap;background:var(--accent);color:#fff;border-radius:16px;padding:2.4cqh 3cqw;text-align:center;font-family:var(--font-display);font-weight:800;line-height:1.15;font-size:min(10cqh,6.4cqw);}
+.banner.carton{background:var(--gold);}
+.banner.order{background:var(--olive);}
+.banner.ribbon{background:var(--plum);}
+.banner .h-size{font-size:1.25em;}
+.banner .h-pack{font-size:.5em;background:rgba(255,255,255,.25);border-radius:999px;padding:.15em .8em;}
+.dot{display:inline-block;width:.7em;height:.7em;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.25);vertical-align:middle;margin-inline-start:.2em;}
+.valbox{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:center;text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.vlbl{font-weight:700;color:var(--muted);font-size:min(6cqh,3.8cqw);}
+.vnum{font-family:var(--font-display);font-weight:800;line-height:1.05;font-size:min(34cqh,17cqw);font-variant-numeric:tabular-nums;}
+.vnum.miss{color:var(--muted);}
+.vnum.txt{font-size:min(24cqh,11cqw);}
+.vnum .dot{border-color:var(--border);}
+.vunit{font-weight:700;color:var(--muted);font-size:min(5.2cqh,3.4cqw);}
+.disp-nav{display:flex;align-items:center;gap:3cqw;flex:0 0 auto;}
+.nbtn{flex:0 0 28cqw;min-height:48px;height:14cqh;border-radius:14px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-family:var(--font-display);font-weight:800;font-size:max(16px,6cqh);}
+.nbtn.primary{background:var(--accent);color:#fff;}
+.nbtn:disabled{opacity:.35;}
+.prog{flex:1;height:1.4cqh;min-height:5px;background:var(--surface);border-radius:999px;overflow:hidden;border:1px solid var(--border);}
+.prog div{height:100%;background:var(--gold);width:0;transition:width .15s;}
+
+/* دليل الشرائط */
+.guide{display:none;position:fixed;inset:0;z-index:90;background:var(--bg);overflow:auto;padding:14px;}
+.guide.show{display:block;}
+.guide img{display:block;width:100%;max-width:640px;margin:0 auto 12px;border-radius:12px;border:1px solid var(--border);}
+.guide .mini{position:sticky;top:0;margin-bottom:10px;}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <img src="logo.png" alt="التوحيد إيجيبت">
+  <div><h1>تقرير التجهيز</h1><p>الصق التقرير وهيترتب لوحده</p></div>
+</header>
+<main>
+  <section class="card">
+    <div class="row"><label for="src">الصق التقرير هنا</label>
+      <div style="display:flex;gap:6px"><button class="mini" id="btnPaste">لصق</button><button class="mini" id="btnClear">مسح</button></div>
+    </div>
+    <textarea id="src" placeholder="الصق التقرير زي ما هو..." spellcheck="false"></textarea>
+  </section>
+  <section class="card" id="summary" hidden></section>
+  <details class="card" id="previewCard" hidden>
+    <summary>شوف التقرير بعد الترتيب (دوس على أي بند يفتح في العرض)</summary>
+    <div id="preview"></div>
+    <button class="bigbtn" id="btnCopy">نسخ التقرير المرتب</button>
+  </details>
+  <button class="link" id="btnGuide">دليل الشرائط</button>
+</main>
+<div class="bar"><button id="btnShow" disabled>شاشة العرض</button></div>
+
+<div class="disp" id="disp"><div class="disp-inner">
+  <div class="disp-top"><button id="closeBtn">✕ إغلاق</button><div class="disp-count" id="count"></div><button id="rotBtn">⟳ تدوير</button></div>
+  <div class="banner" id="banner"></div>
+  <div class="valbox" id="valbox"></div>
+  <div class="disp-nav"><button class="nbtn" id="prev">السابق</button><div class="prog"><div id="bar"></div></div><button class="nbtn primary" id="next">التالي</button></div>
+</div></div>
+
+<div class="guide" id="guide"><button class="mini" id="guideClose">✕ إغلاق</button>
+<img src="assets/ribbon-guide-1.jpg" loading="lazy" alt="دليل الشرائط 1">
+<img src="assets/ribbon-guide-2.jpg" loading="lazy" alt="دليل الشرائط 2">
+<img src="assets/ribbon-guide-3.jpg" loading="lazy" alt="دليل الشرائط 3">
+<img src="assets/ribbon-guide-4.jpg" loading="lazy" alt="دليل الشرائط 4">
+<img src="assets/ribbon-guide-5.jpg" loading="lazy" alt="دليل الشرائط 5">
+<img src="assets/ribbon-guide-6.jpg" loading="lazy" alt="دليل الشرائط 6">
+<img src="assets/ribbon-guide-7.jpg" loading="lazy" alt="دليل الشرائط 7">
+<img src="assets/ribbon-guide-8.jpg" loading="lazy" alt="دليل الشرائط 8">
+
+</div>
+<div class="toast" id="toast"></div>
+<script>
+/* ===== محلّل التقرير: بياخد النص الملخبط ويطلّعه مرتّب ===== */
+const ITEMS = ['خفيف','سوبر','كروشيه','نسيج','سوبر خاص','نسيج خفيف','جاكار','فستونة جاكار','فستونة عادية','ساندوتش','قطن','فستونة'];
+const ITEM_ORDER = ['نسيج','نسيج خفيف','خفيف','كروشيه','سوبر','سوبر خاص','جاكار','فستونة جاكار','فستونة عادية','فستونة','ساندوتش','قطن'];
+const COLORS = ['اسود','ابيض','احمر','اخضر','ازرق','اصفر','كحلي','لبني','زيتي','بترولي','رمادي','بيج','حمصي','موف','تركواز','برتقالي','فضي','بني','وردي','عنابي','سماوي','ذهبي','نبيتي','بنفسجي','فوشيا','خمري','عسلي','جملي'];
+const PRETTY = { 'اسود':'أسود', 'ابيض':'أبيض', 'احمر':'أحمر', 'اخضر':'أخضر', 'ازرق':'أزرق', 'اصفر':'أصفر' };
+
+function norm(s){ return String(s).replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/\u0640/g,'').replace(/\s+/g,' ').trim(); }
+function digits(s){ return s.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/٫/g,'.').replace(/،/g,' '); }
+function pretty(c){ return c ? c.split(' ').map(w => PRETTY[norm(w)] || w).join(' ') : ''; }
+const ITEMS_N = ITEMS.map(norm);
+
+function splitItemColor(words){
+  const nw = words.map(norm);
+  for(let len = Math.min(2, nw.length); len >= 1; len--){
+    if(ITEMS_N.includes(nw.slice(0,len).join(' '))) return { item: words.slice(0,len).join(' '), color: words.slice(len).join(' ') };
+  }
+  return null;
+}
+function genericItemColor(words){
+  if(words.length >= 2 && COLORS.includes(norm(words[words.length-1]))) return { item: words.slice(0,-1).join(' '), color: words[words.length-1] };
+  return { item: words.join(' '), color: '' };
+}
+
+let _id = 0;
+function parseReport(text){
+  const entries = [], bad = [];
+  let header = null, orderName = null, orderCount = 0;
+  const closeOrder = () => {
+    if(orderName && orderCount === 0) entries.push({ id:'e'+(++_id), kind:'order', order:orderName, color:'', value:null, vtype:'count', raw:orderName });
+    orderName = null; orderCount = 0;
+  };
+  digits(String(text || '')).split(/\r?\n/).forEach(rawLine => {
+    const line = rawLine.replace(/[\u200e\u200f\u202a-\u202e]/g,'').replace(/\u0640/g,'').replace(/\s+/g,' ').trim();
+    if(!line){ closeOrder(); return; }
+    const n = norm(line);
+
+    // عناوين أقسام بتتخطى (مثلاً "الاسطوانات" أو "كراتين صافي 10 كيلو...")
+    if(/^(ال)?(اسطوانات|كراتين|فلنشات|تقرير)(\s|$|:)/.test(n)) return;
+
+    // شريط كود 64 عدد 50 بكرة
+    let m = n.match(/^شريط\s*كود\s*(\d+)\s*(?:عدد)?\s*(\d+)\s*بكر/);
+    if(m){ closeOrder(); entries.push({ id:'e'+(++_id), kind:'ribbon', code:m[1], value:+m[2], vtype:'reels', raw:line }); return; }
+
+    // سطر بيبدأ بمقاس
+    m = line.match(/^(\d+(?:\.\d+)?)\s*(سم|ج|مم)?\s*(.*)$/);
+    if(m){
+      closeOrder();
+      const sizeNum = parseFloat(m[1]), unit = m[2] || '';
+      const size = m[1] + unit;
+      let rest = m[3].trim(), value = null, vtype = null, mm;
+      if((mm = rest.match(/^(.*?)\s*(\d+)\s*[اأإ]سطوان[ةه]?\s*$/))){ value = +mm[2]; vtype = 'rollcount'; rest = mm[1]; }
+      else if((mm = rest.match(/^(.*?)\s*(\d+\.\d+)\s*$/))){ value = parseFloat(mm[2]); vtype = 'weight'; rest = mm[1]; }
+      else if((mm = rest.match(/^(.*?)\s*(\d+)\s*$/))){ value = +mm[2]; vtype = 'count'; rest = mm[1]; }
+      const words = rest.split(' ').filter(Boolean);
+      const base = { id:'e'+(++_id), size, sizeNum, unit, raw:line };
+
+      if(vtype === 'weight' || vtype === 'rollcount'){
+        if(!words.length){ bad.push(line); return; }
+        const ic = splitItemColor(words) || genericItemColor(words);
+        entries.push(Object.assign(base, { kind:'roll', item:ic.item, color:pretty(ic.color), value, vtype }));
+        return;
+      }
+      // كراتين: العدد صحيح أو ناقص، والصنف من العنوان أو من السطر
+      let item = header, color = '';
+      if(words.length){
+        const ic = splitItemColor(words);
+        if(ic){ item = ic.item; color = ic.color; } else { color = words.join(' '); }
+      }
+      if(!item){ bad.push(line); return; }
+      entries.push(Object.assign(base, { kind:'carton', item, color:pretty(color), value, vtype:'count' }));
+      return;
+    }
+
+    // عنوان صنف (خفيف / سوبر ...)
+    if(!/\d/.test(line) && ITEMS_N.includes(n)){ closeOrder(); header = line; return; }
+
+    // غير كده: اسم طلبية، وبعدها سطور ألوانها
+    if(!orderName){ header = null; orderName = line; orderCount = 0; return; }
+    const om = line.match(/^(.*?)\s*(\d+)\s*$/);
+    const label = (om ? om[1] : line).trim();
+    entries.push({ id:'e'+(++_id), kind:'order', order:orderName, color:label, value: om ? +om[2] : null, vtype:'count', raw:line });
+    orderCount++;
+  });
+  closeOrder();
+  return { entries, bad };
+}
+
+/* ===== الترتيب: كل صنف لوحده، ومقاساته تحته ===== */
+function colorRank(c){ const x = norm(c || 'ابيض'); return x === 'ابيض' ? 0 : x === 'اسود' ? 1 : 2; }
+function itemRank(i){ const k = ITEM_ORDER.map(norm).indexOf(norm(i)); return k < 0 ? 100 : k; }
+function sizeCmp(a, b){ const ua = a.unit === 'ج' ? 1 : 0, ub = b.unit === 'ج' ? 1 : 0; return ua - ub || a.sizeNum - b.sizeNum; }
+
+function organize(entries){
+  const sections = [];
+  const sortable = kind => {
+    const rows = entries.filter(e => e.kind === kind);
+    const groups = [], idx = {};
+    rows.forEach(e => { const k = norm(e.item) + '|' + norm(e.color || 'ابيض'); if(!(k in idx)){ idx[k] = groups.length; groups.push({ item:e.item, color:e.color, rows:[] }); } groups[idx[k]].rows.push(e); });
+    groups.forEach(g => g.rows.sort(sizeCmp));
+    groups.sort((a, b) => itemRank(a.item) - itemRank(b.item) || norm(a.item).localeCompare(norm(b.item), 'ar') || colorRank(a.color) - colorRank(b.color) || norm(a.color).localeCompare(norm(b.color), 'ar'));
+    return groups.map(g => ({ label: g.item + (g.color && colorRank(g.color) ? ' ' + g.color : g.color ? ' ' + g.color : ''), rows: g.rows }));
+  };
+  const rolls = sortable('roll'), cartons = sortable('carton');
+  if(rolls.length) sections.push({ key:'roll', title:'الاسطوانات', groups: rolls });
+  if(cartons.length) sections.push({ key:'carton', title:'الكراتين', groups: cartons });
+  const oroups = [], oidx = {};
+  entries.filter(e => e.kind === 'order').forEach(e => { if(!(e.order in oidx)){ oidx[e.order] = oroups.length; oroups.push({ label:e.order, rows:[] }); } oroups[oidx[e.order]].rows.push(e); });
+  if(oroups.length) sections.push({ key:'order', title:'الطلبيات', groups: oroups });
+  const rib = entries.filter(e => e.kind === 'ribbon');
+  if(rib.length) sections.push({ key:'ribbon', title:'الشرائط', groups: [{ label:'شريط', rows: rib }] });
+  return sections;
+}
+function flatten(sections){ const out = []; sections.forEach(s => s.groups.forEach(g => g.rows.forEach(r => out.push(r)))); return out; }
+
+function fmtVal(e){
+  if(e.value == null) return '';
+  if(e.vtype === 'weight') return e.value.toFixed(3);
+  if(e.vtype === 'rollcount') return e.value + ' أسطوانة';
+  if(e.vtype === 'reels') return 'عدد ' + e.value + 'بكرة';
+  return String(e.value);
+}
+function toText(sections){
+  const out = [];
+  sections.forEach(s => {
+    out.push(s.title, '');
+    if(s.key === 'carton'){
+      const byItem = [], idx = {};
+      s.groups.forEach(g => { const k = norm(g.rows[0].item); if(!(k in idx)){ idx[k] = byItem.length; byItem.push({ item:g.rows[0].item, rows:[] }); } byItem[idx[k]].rows.push(...g.rows); });
+      byItem.forEach(b => {
+        out.push(b.item);
+        b.rows.forEach(e => out.push(`${e.size}${!e.unit && !e.color ? e.item : ''}${e.color ? (e.unit ? ' ' : e.item + ' ') + e.color : ''}${e.value != null ? ' ' + e.value : ''}`));
+        out.push('');
+      });
+      return;
+    }
+    s.groups.forEach(g => {
+      if(s.key === 'roll'){ g.rows.forEach(e => out.push(`${e.size}${e.unit ? ' ' : ''}${e.item}${e.color && colorRank(e.color) ? ' ' + e.color : ''} ${fmtVal(e)}`.replace(/\s+$/,''))); }
+      else if(s.key === 'carton'){ return; }
+      else if(s.key === 'order'){ out.push(g.label); g.rows.forEach(e => { if(e.color || e.value != null) out.push(`${e.color}${e.value != null ? ' ' + e.value : ''}`.trim()); }); }
+      else { g.rows.forEach(e => out.push(`شريط كود ${e.code} ${fmtVal(e)}`)); }
+      out.push('');
+    });
+  });
+  while(out.length && out[out.length-1] === '') out.pop();
+  return out.join('\n');
+}
+
+
+</script>
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const KEY_TEXT = 'twh_simple_text', KEY_POS = 'twh_simple_pos', KEY_ROT = 'twh_simple_rot';
+  const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch(e){ return d; } };
+  const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch(e){} };
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const HEX = { 'اسود':'#1a1a1a','ابيض':'#ffffff','احمر':'#d62d2d','اخضر':'#2e9e4f','ازرق':'#2f6fd6','اصفر':'#f2c94c','كحلي':'#1d2b5c','لبني':'#8fc7ea','زيتي':'#6b6b2a','بترولي':'#1c6a78','رمادي':'#8a8a8a','بيج':'#d9c3a0','حمصي':'#9a7b4f','موف':'#8e5bb5','تركواز':'#2bb5b0','برتقالي':'#f08a24','فضي':'#c0c0c8','بني':'#6b4426','وردي':'#f0a0be' };
+  let sections = [], flat = [], bad = [], idx = 0, wake = null;
+  let toastT;
+
+  function toast(msg){ const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 1700); }
+
+  function run(){
+    const text = $('src').value;
+    lsSet(KEY_TEXT, text);
+    const r = parseReport(text);
+    bad = r.bad;
+    sections = organize(r.entries);
+    flat = flatten(sections);
+    render();
+  }
+
+  function render(){
+    const has = flat.length > 0 || bad.length > 0;
+    $('summary').hidden = !has; $('previewCard').hidden = !flat.length;
+    $('btnShow').disabled = !flat.length;
+    if(!has){ return; }
+    const count = k => flat.filter(e => e.kind === k).length;
+    let chips = '';
+    if(count('roll')) chips += `<span class="chip">اسطوانات ${count('roll')}</span>`;
+    if(count('carton')) chips += `<span class="chip gold">كراتين ${count('carton')}</span>`;
+    if(count('order')) chips += `<span class="chip olive">طلبيات ${count('order')}</span>`;
+    if(count('ribbon')) chips += `<span class="chip plum">شرائط ${count('ribbon')}</span>`;
+    const miss = flat.filter(e => e.value == null && e.kind !== 'order').length;
+    let warn = '';
+    if(bad.length) warn += `<div class="warn"><b>سطور مش مفهومة (${bad.length}):</b>${bad.map(l => `<div>${esc(l)}</div>`).join('')}</div>`;
+    if(miss) warn += `<div class="warn"><b>بنود من غير عدد أو وزن (${miss}):</b> هتظهر "—" في شاشة العرض.</div>`;
+    $('summary').innerHTML = `<div class="chips">${chips}</div>${warn}`;
+
+    let n = 0, html = '';
+    sections.forEach(s => {
+      html += `<div class="sec">${s.title}</div>`;
+      s.groups.forEach(g => {
+        html += `<div class="grp"><h4>${esc(g.label)}</h4>`;
+        g.rows.forEach(e => { const i = n++; html += `<button class="ent${e.value == null && e.kind !== 'order' ? ' miss' : ''}" data-i="${i}"><span>${esc(rowLabel(e))}</span><b>${esc(valText(e))}</b></button>`; });
+        html += `</div>`;
+      });
+    });
+    $('preview').innerHTML = html;
+  }
+  function rowLabel(e){
+    if(e.kind === 'roll' || e.kind === 'carton') return `${e.size}${e.unit ? ' ' : ''}${e.item}${e.color ? ' ' + e.color : ''}`;
+    if(e.kind === 'ribbon') return 'شريط كود ' + e.code;
+    return e.color || e.order;
+  }
+  function valText(e){
+    if(e.value == null) return '—';
+    if(e.vtype === 'weight') return e.value.toFixed(3);
+    if(e.vtype === 'rollcount') return e.value + ' أسطوانة';
+    if(e.vtype === 'reels') return e.value + ' بكرة';
+    return String(e.value);
+  }
+
+  /* ---------- شاشة العرض ---------- */
+  const PACK = { roll:'اسطوانات', carton:'كراتين' };
+  function dot(c){ const h = HEX[norm(c)]; return h ? `<span class="dot" style="background:${h}"></span>` : ''; }
+  function headline(e){
+    if(e.kind === 'order') return `<span>${esc(e.order)}</span>`;
+    if(e.kind === 'ribbon') return `<span>شريط</span><span class="h-size">كود ${esc(e.code)}</span>`;
+    const color = e.color || (norm(e.item).startsWith('شريط') ? '' : 'أبيض');
+    return `<span class="h-size">${esc(e.size)}</span><span>${esc(e.item)}</span>` + (color ? `<span>${esc(color)}${dot(color)}</span>` : '') + `<span class="h-pack">${PACK[e.kind]}</span>`;
+  }
+  function show(){
+    const e = flat[idx];
+    $('banner').className = 'banner ' + e.kind;
+    $('banner').innerHTML = headline(e);
+    if(e.kind === 'order'){
+      $('count').textContent = (idx + 1) + ' / ' + flat.length;
+      $('valbox').innerHTML = `<div class="vlbl">اللون</div><div class="vnum txt">${e.color ? esc(e.color) + dot(e.color) : '—'}</div>` + (e.value != null ? `<div class="vunit">العدد ${esc(String(e.value))}</div>` : '');
+      $('bar').style.width = ((idx + 1) / flat.length * 100) + '%';
+      $('prev').disabled = idx === 0; $('next').disabled = idx === flat.length - 1;
+      lsSet(KEY_POS, String(idx));
+      return;
+    }
+    let label, unit = '';
+    if(e.vtype === 'weight'){ label = 'الوزن القائم'; unit = 'كيلو'; }
+    else if(e.vtype === 'rollcount'){ label = 'عدد الاسطوانات'; unit = 'أسطوانة'; }
+    else if(e.vtype === 'reels'){ label = 'عدد البكر'; unit = 'بكرة'; }
+    else if(e.kind === 'carton'){ label = 'عدد الكراتين'; unit = 'كرتونة'; }
+    else { label = 'العدد'; }
+    const miss = e.value == null;
+    $('valbox').innerHTML = `<div class="vlbl">${label}</div><div class="vnum${miss ? ' miss' : ''}">${miss ? '—' : esc(valText(e).replace(/ (أسطوانة|بكرة)$/, ''))}</div>` + (miss ? '<div class="vunit">مفيش رقم في التقرير</div>' : (unit ? `<div class="vunit">${unit}</div>` : ''));
+    $('count').textContent = (idx + 1) + ' / ' + flat.length;
+    $('bar').style.width = ((idx + 1) / flat.length * 100) + '%';
+    $('prev').disabled = idx === 0; $('next').disabled = idx === flat.length - 1;
+    lsSet(KEY_POS, String(idx));
+  }
+  function applyRot(){ $('disp').classList.toggle('rot', lsGet(KEY_ROT, '1') === '1' && innerHeight > innerWidth); }
+  const req = () => { try { if('wakeLock' in navigator) navigator.wakeLock.request('screen').then(l => wake = l, () => {}); } catch(e){} };
+  const rel = () => { try { if(wake) wake.release(); } catch(e){} wake = null; };
+  function open(i){
+    if(!flat.length) return;
+    idx = Math.max(0, Math.min(flat.length - 1, i != null ? i : (parseInt(lsGet(KEY_POS, '0'), 10) || 0)));
+    $('disp').classList.add('show'); applyRot(); show(); req();
+  }
+  function close(){ $('disp').classList.remove('show'); rel(); }
+  function step(d){ idx = Math.max(0, Math.min(flat.length - 1, idx + d)); show(); }
+
+  /* ---------- أحداث ---------- */
+  let debounce;
+  $('src').addEventListener('input', () => { clearTimeout(debounce); debounce = setTimeout(run, 250); });
+  $('btnPaste').addEventListener('click', async () => {
+    try { const t = await navigator.clipboard.readText(); if(t){ $('src').value = t; lsSet(KEY_POS, '0'); run(); toast('اتلصق واتّرتب'); return; } } catch(e){}
+    $('src').focus(); toast('اضغط ضغطة طويلة في الخانة واختار لصق');
+  });
+  $('btnClear').addEventListener('click', () => { if(!$('src').value || confirmClear()){ $('src').value = ''; lsSet(KEY_POS, '0'); run(); } });
+  function confirmClear(){ return window.confirm ? window.confirm('تمسح التقرير الحالي؟') : true; }
+  $('btnCopy').addEventListener('click', async () => {
+    const t = toText(sections);
+    try { await navigator.clipboard.writeText(t); toast('اتنسخ التقرير المرتب'); }
+    catch(e){ const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); toast('اتنسخ التقرير المرتب'); } catch(e2){} ta.remove(); }
+  });
+  $('preview').addEventListener('click', ev => { const b = ev.target.closest('.ent'); if(b) open(+b.dataset.i); });
+  $('btnShow').addEventListener('click', () => open());
+  $('closeBtn').addEventListener('click', close);
+  $('prev').addEventListener('click', () => step(-1));
+  $('next').addEventListener('click', () => step(1));
+  $('rotBtn').addEventListener('click', () => { lsSet(KEY_ROT, lsGet(KEY_ROT, '1') === '1' ? '0' : '1'); applyRot(); });
+  $('btnGuide').addEventListener('click', () => $('guide').classList.add('show'));
+  $('guideClose').addEventListener('click', () => $('guide').classList.remove('show'));
+  addEventListener('resize', applyRot);
+  document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible' && $('disp').classList.contains('show')) req(); });
+
+  $('src').value = lsGet(KEY_TEXT, '');
+  run();
+  if('serviceWorker' in navigator){ addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {})); }
+})();
+
+</script>
+</body>
+</html>

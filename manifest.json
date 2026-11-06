@@ -1,0 +1,20 @@
+{
+  "id": "./",
+  "name": "تقرير التجهيز — التوحيد إيجيبت",
+  "short_name": "تقرير التجهيز",
+  "description": "الصق تقرير الإنتاج فيترتب، وشاشة عرض بند بند أثناء عمل الباركود",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#FAF6F3",
+  "theme_color": "#FFFFFF",
+  "categories": ["business", "productivity"],
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
