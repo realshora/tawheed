@@ -77,6 +77,10 @@ details summary{font-family:var(--font-display);font-weight:800;cursor:pointer;f
 .banner.carton{background:var(--gold);}
 .banner.order{background:var(--olive);}
 .banner.ribbon{background:var(--plum);}
+.banner.it-khafif{background:#A67C00;}
+.banner.it-super{background:#1F6B3A;}
+.banner.it-nasij{background:#1D4E89;}
+.banner.it-crochet{background:#A32020;}
 .banner .h-size{font-size:1.25em;}
 .banner .h-pack{font-size:.5em;background:rgba(255,255,255,.25);border-radius:999px;padding:.15em .8em;}
 .dot{display:inline-block;width:.7em;height:.7em;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.25);vertical-align:middle;margin-inline-start:.2em;}
@@ -391,7 +395,9 @@ function toText(sections){
   }
   function show(){
     const e = flat[idx];
-    $('banner').className = 'banner ' + e.kind;
+    const IT_CLS = { 'خفيف':'it-khafif', 'سوبر':'it-super', 'نسيج':'it-nasij', 'كروشيه':'it-crochet' };
+    const itc = (e.kind === 'roll' || e.kind === 'carton') ? (IT_CLS[norm(e.item).split(' ')[0]] || '') : '';
+    $('banner').className = 'banner ' + e.kind + (itc ? ' ' + itc : '');
     $('banner').innerHTML = headline(e);
     if(e.kind === 'order'){
       $('count').textContent = (idx + 1) + ' / ' + flat.length;
@@ -420,9 +426,12 @@ function toText(sections){
   function open(i){
     if(!flat.length) return;
     idx = Math.max(0, Math.min(flat.length - 1, i != null ? i : (parseInt(lsGet(KEY_POS, '0'), 10) || 0)));
-    $('disp').classList.add('show'); applyRot(); show(); req();
+    $('disp').classList.add('show'); applyRot(); show(); req(); goFull();
   }
-  function close(){ $('disp').classList.remove('show'); rel(); }
+  function close(){ $('disp').classList.remove('show'); rel(); leaveFull(); }
+  function goFull(){ try { const d = document.documentElement; if(!document.fullscreenElement && d.requestFullscreen) d.requestFullscreen({ navigationUI:'hide' }).catch(() => {}); } catch(e){} }
+  function leaveFull(){ try { if(document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {}); } catch(e){} }
+  document.addEventListener('fullscreenchange', () => { applyRot(); });
   function step(d){ idx = Math.max(0, Math.min(flat.length - 1, idx + d)); show(); }
 
   /* ---------- أحداث ---------- */
