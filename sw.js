@@ -1,5 +1,5 @@
 // twh service worker v3 — يفتح من النسخة المحفوظة فورًا (من غير ما يستنى النت)، ويحدّثها في الخلفية
-const CACHE = 'twh-simple-v6';
+const CACHE = 'twh-simple-v7';
 const PRECACHE = ["./", "./index.html", "./manifest.json", "./logo.png", "./icon-192.png", "./icon-512.png", "./icon-maskable-512.png", "./apple-touch-icon.png", "./assets/ribbon-guide-1.jpg", "./assets/ribbon-guide-2.jpg", "./assets/ribbon-guide-3.jpg", "./assets/ribbon-guide-4.jpg", "./assets/ribbon-guide-5.jpg", "./assets/ribbon-guide-6.jpg", "./assets/ribbon-guide-7.jpg", "./assets/ribbon-guide-8.jpg"];
 
 // ردود الـ redirect مينفعش تتقدّم لطلب تنقّل (navigate)، فبنعمل منها نسخة نضيفة
