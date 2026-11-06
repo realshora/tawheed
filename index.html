@@ -177,7 +177,15 @@ function parseReport(text){
     orderName = null; orderCount = 0;
   };
   digits(String(text || '')).split(/\r?\n/).forEach(rawLine => {
-    const line = rawLine.replace(/[\u200e\u200f\u202a-\u202e]/g,'').replace(/\u0640/g,'').replace(/\s+/g,' ').trim();
+    let line = rawLine.replace(/[\u200e\u200f\u202a-\u202e]/g,'').replace(/\u0640/g,'').replace(/\s+/g,' ').trim();
+    if(!line){ closeOrder(); return; }
+
+    // عنوان صنف بين نجمتين: *خفيف* / *سوبر* / *فستونة عادية* (أي اسم، حتى لو مش في القائمة)
+    const star = line.match(/^\*+\s*([^*]+?)\s*\*+$/);
+    if(star && !/\d/.test(star[1]) && !/^(ال)?(اسطوانات|كراتين|فلنشات|تقرير)(\s|$|:)/.test(norm(star[1]))){
+      closeOrder(); header = star[1].trim(); return;
+    }
+    line = line.replace(/\*/g, '').replace(/\s+/g, ' ').trim();
     if(!line){ closeOrder(); return; }
     const n = norm(line);
 
@@ -202,7 +210,11 @@ function parseReport(text){
       const base = { id:'e'+(++_id), size, sizeNum, unit, raw:line };
 
       if(vtype === 'weight' || vtype === 'rollcount'){
-        if(!words.length){ bad.push(line); return; }
+        if(!words.length){
+          if(!header){ bad.push(line); return; }
+          entries.push(Object.assign(base, { kind:'roll', item:header, color:'', value, vtype }));
+          return;
+        }
         const ic = splitItemColor(words) || genericItemColor(words);
         entries.push(Object.assign(base, { kind:'roll', item:ic.item, color:pretty(ic.color), value, vtype }));
         return;
