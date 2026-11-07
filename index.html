@@ -23,6 +23,7 @@
   --gold: oklch(0.66 0.12 75);
   --olive: oklch(0.52 0.08 130);
   --plum: oklch(0.48 0.09 330);
+  --teal: oklch(0.5 0.09 205);
   --danger: oklch(0.58 0.19 25);
   --font-display: 'Tajawal', sans-serif;
   --font-body: 'IBM Plex Sans Arabic', sans-serif;
@@ -46,6 +47,7 @@ textarea:focus{outline:2px solid var(--accent);outline-offset:0;}
 .chip{border-radius:999px;padding:5px 12px;font-weight:700;font-size:13px;background:var(--accent-tint);color:var(--accent);}
 .chip.gold{background:color-mix(in oklch,var(--gold) 18%,white);color:oklch(0.45 0.1 75);}
 .chip.olive{background:color-mix(in oklch,var(--olive) 16%,white);color:var(--olive);}
+.chip.teal{background:color-mix(in oklch,var(--teal) 14%,white);color:var(--teal);}
 .chip.plum{background:color-mix(in oklch,var(--plum) 14%,white);color:var(--plum);}
 .warn{margin-top:10px;border:1px solid color-mix(in oklch,var(--danger) 40%,white);background:color-mix(in oklch,var(--danger) 8%,white);border-radius:12px;padding:10px 12px;font-size:13.5px;}
 .warn b{color:var(--danger);}
@@ -66,10 +68,10 @@ details summary{font-family:var(--font-display);font-weight:800;cursor:pointer;f
 .toast.show{opacity:1;}
 
 /* ---------- شاشة العرض ---------- */
-.disp{display:none;position:fixed;inset:0;z-index:100;background:var(--bg);container-type:size;}
+.disp{display:none;position:fixed;inset:0;z-index:100;background:var(--bg);}
 .disp.show{display:block;}
-.disp-inner{position:absolute;inset:0;display:flex;flex-direction:column;gap:12px;container-type:size;padding:14px;box-sizing:border-box;}
-.disp.rot .disp-inner{inset:auto;top:0;left:0;width:100cqh;height:100cqw;transform-origin:top left;transform:translateX(100cqw) rotate(90deg);}
+.disp-inner{position:absolute;inset:0;display:flex;flex-direction:column;gap:2cqh;container-type:size;padding:3cqh 3cqw;}
+.disp.rot .disp-inner{inset:auto;top:0;left:0;width:calc(100vh - 84px);height:100vw;transform-origin:top left;transform:translateX(100vw) rotate(90deg);}
 .disp-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex:0 0 auto;}
 .disp-top button{border:1px solid var(--border);background:var(--surface);color:var(--fg);font-weight:700;font-size:max(13px,4.4cqh);border-radius:10px;padding:1.2cqh 3cqw;}
 .disp-count{font-family:var(--font-display);font-weight:800;color:var(--muted);font-size:max(14px,5cqh);}
@@ -77,21 +79,20 @@ details summary{font-family:var(--font-display);font-weight:800;cursor:pointer;f
 .banner.carton{background:var(--gold);}
 .banner.order{background:var(--olive);}
 .banner.ribbon{background:var(--plum);}
-.banner.it-khafif{background:#A67C00;}
-.banner.it-super{background:#1F6B3A;}
-.banner.it-nasij{background:#1D4E89;}
-.banner.it-crochet{background:#A32020;}
+.banner.flancha{background:var(--teal);}
 .banner .h-size{font-size:1.25em;}
 .banner .h-pack{font-size:.5em;background:rgba(255,255,255,.25);border-radius:999px;padding:.15em .8em;}
 .dot{display:inline-block;width:.7em;height:.7em;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.25);vertical-align:middle;margin-inline-start:.2em;}
-.valbox{flex:1 1 auto;min-height:0;container-type:size;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;padding:1% 3%;box-sizing:border-box;}
-.valbox>*{max-width:100%;overflow-wrap:anywhere;}
-.vlbl{font-weight:700;color:var(--muted);font-size:min(11cqh,6cqw);line-height:1.2;}
-.vnum{font-family:var(--font-display);font-weight:800;line-height:1.05;font-size:min(46cqh,17cqw);font-variant-numeric:tabular-nums;}
+.valbox{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:center;text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.vlbl{font-weight:700;color:var(--muted);font-size:min(6cqh,3.8cqw);}
+.vnum{font-family:var(--font-display);font-weight:800;line-height:1.05;font-size:min(34cqh,17cqw);font-variant-numeric:tabular-nums;}
 .vnum.miss{color:var(--muted);}
-.vnum.txt{font-size:min(30cqh,11cqw);}
+.valbox.two{background:none;border:none;flex-direction:row;gap:3cqw;overflow:visible;}
+.valbox.two .vb{flex:1 1 0;min-width:0;background:var(--surface);border:1px solid var(--border);border-radius:16px;display:flex;flex-direction:column;justify-content:center;text-align:center;overflow:hidden;padding:1cqh 1cqw;}
+.valbox.two .vnum{font-size:min(30cqh,13cqw);}
+.vnum.txt{font-size:min(24cqh,11cqw);}
 .vnum .dot{border-color:var(--border);}
-.vunit{font-weight:700;color:var(--muted);font-size:min(10cqh,5cqw);line-height:1.2;}
+.vunit{font-weight:700;color:var(--muted);font-size:min(5.2cqh,3.4cqw);}
 .disp-nav{display:flex;align-items:center;gap:3cqw;flex:0 0 auto;}
 .nbtn{flex:0 0 28cqw;min-height:48px;height:14cqh;border-radius:14px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-family:var(--font-display);font-weight:800;font-size:max(16px,6cqh);}
 .nbtn.primary{background:var(--accent);color:#fff;}
@@ -156,7 +157,8 @@ const COLORS = ['اسود','ابيض','احمر','اخضر','ازرق','اصفر
 const PRETTY = { 'اسود':'أسود', 'ابيض':'أبيض', 'احمر':'أحمر', 'اخضر':'أخضر', 'ازرق':'أزرق', 'اصفر':'أصفر' };
 
 function norm(s){ return String(s).replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/\u0640/g,'').replace(/\s+/g,' ').trim(); }
-function digits(s){ return s.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/٫/g,'.').replace(/،/g,' '); }
+function digits(s){ return s.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/٫/g,'.').replace(/،/g,' ').replace(/…/g,'...'); }
+const MODES = { 'قائم':'قائم', 'قايم':'قائم', 'قائمه':'قائم', 'قايمه':'قائم', 'صافي':'صافي' };
 function pretty(c){ return c ? c.split(' ').map(w => PRETTY[norm(w)] || w).join(' ') : ''; }
 const ITEMS_N = ITEMS.map(norm);
 
@@ -181,15 +183,7 @@ function parseReport(text){
     orderName = null; orderCount = 0;
   };
   digits(String(text || '')).split(/\r?\n/).forEach(rawLine => {
-    let line = rawLine.replace(/[\u200e\u200f\u202a-\u202e]/g,'').replace(/\u0640/g,'').replace(/\s+/g,' ').trim();
-    if(!line){ closeOrder(); return; }
-
-    // عنوان صنف بين نجمتين: *خفيف* / *سوبر* / *فستونة عادية* (أي اسم، حتى لو مش في القائمة)
-    const star = line.match(/^\*+\s*([^*]+?)\s*\*+$/);
-    if(star && !/\d/.test(star[1]) && !/^(ال)?(اسطوانات|كراتين|فلنشات|تقرير)(\s|$|:)/.test(norm(star[1]))){
-      closeOrder(); header = star[1].trim(); return;
-    }
-    line = line.replace(/\*/g, '').replace(/\s+/g, ' ').trim();
+    const line = rawLine.replace(/[\u200e\u200f\u202a-\u202e]/g,'').replace(/\u0640/g,'').replace(/\s+/g,' ').trim();
     if(!line){ closeOrder(); return; }
     const n = norm(line);
 
@@ -197,8 +191,27 @@ function parseReport(text){
     if(/^(ال)?(اسطوانات|كراتين|فلنشات|تقرير)(\s|$|:)/.test(n)) return;
 
     // شريط كود 64 عدد 50 بكرة
-    let m = n.match(/^شريط\s*كود\s*(\d+)\s*(?:عدد)?\s*(\d+)\s*بكر/);
-    if(m){ closeOrder(); entries.push({ id:'e'+(++_id), kind:'ribbon', code:m[1], value:+m[2], vtype:'reels', raw:line }); return; }
+    // فلنشات: أي سطر فيه قائم / قايم / صافي — الرقم = عدد البكر في الشوال، و ...2 = عدد الأشولة
+    const toks = line.split(' ');
+    const mi = toks.findIndex(t => MODES[norm(t)]);
+    if(mi >= 0){
+      closeOrder();
+      const mode = MODES[norm(toks[mi])];
+      const left = toks.slice(0, mi).join(' ').trim(), right = toks.slice(mi + 1).join(' ').trim();
+      const rm = right.match(/^(?:(\d+))?\s*(?:\.{2,}\s*(\d+))?$/);
+      if(!rm || !left){ bad.push(line); return; }
+      const sm = left.match(/^(\d+(?:\.\d+)?)\s*(سم|ج|مم)?\s*(.*)$/);
+      const words = (sm ? sm[3] : left).split(' ').filter(Boolean);
+      if(!words.length){ bad.push(line); return; }
+      const ic = splitItemColor(words) || genericItemColor(words);
+      entries.push({ id:'e'+(++_id), kind:'flancha', size: sm ? sm[1] + (sm[2] || '') : '', sizeNum: sm ? parseFloat(sm[1]) : Infinity, unit: sm ? (sm[2] || '') : '',
+        item:ic.item, color:pretty(ic.color), mode, value: rm[1] ? +rm[1] : null, sacks: rm[2] ? +rm[2] : 1, vtype:'reels', raw:line });
+      return;
+    }
+
+    // شريط رقم 64 عدد 50...2  (القديم: شريط كود 64 عدد 50بكرة)
+    let m = n.match(/^شريط\s*(?:كود|رقم)\s*(\d+)\s*(?:عدد)?\s*(\d+)\s*(?:بكر\S*)?\s*(?:\.{2,}\s*(\d+))?\s*$/);
+    if(m){ closeOrder(); entries.push({ id:'e'+(++_id), kind:'ribbon', code:m[1], value:+m[2], sacks: m[3] ? +m[3] : 1, vtype:'reels', raw:line }); return; }
 
     // سطر بيبدأ بمقاس
     m = line.match(/^(\d+(?:\.\d+)?)\s*(سم|ج|مم)?\s*(.*)$/);
@@ -214,11 +227,7 @@ function parseReport(text){
       const base = { id:'e'+(++_id), size, sizeNum, unit, raw:line };
 
       if(vtype === 'weight' || vtype === 'rollcount'){
-        if(!words.length){
-          if(!header){ bad.push(line); return; }
-          entries.push(Object.assign(base, { kind:'roll', item:header, color:'', value, vtype }));
-          return;
-        }
+        if(!words.length){ bad.push(line); return; }
         const ic = splitItemColor(words) || genericItemColor(words);
         entries.push(Object.assign(base, { kind:'roll', item:ic.item, color:pretty(ic.color), value, vtype }));
         return;
@@ -237,16 +246,6 @@ function parseReport(text){
     // عنوان صنف (خفيف / سوبر ...)
     if(!/\d/.test(line) && ITEMS_N.includes(n)){ closeOrder(); header = line; return; }
 
-    // تحت عنوان صنف: سطر "لون عدد" من غير مقاس (مثلاً: اسود 2) = كراتين من نفس الصنف
-    if(header){
-      const hm = line.match(/^(.*?)\s*(\d+(?:\.\d+)?)\s*$/);
-      if(hm && hm[1].trim()){
-        closeOrder();
-        entries.push({ id:'e'+(++_id), kind:'carton', size:'', sizeNum:0, unit:'', item:header, color:pretty(hm[1].trim()), value:+hm[2], vtype:'count', raw:line });
-        return;
-      }
-    }
-
     // غير كده: اسم طلبية، وبعدها سطور ألوانها
     if(!orderName){ header = null; orderName = line; orderCount = 0; return; }
     const om = line.match(/^(.*?)\s*(\d+)\s*$/);
@@ -261,7 +260,7 @@ function parseReport(text){
 /* ===== الترتيب: كل صنف لوحده، ومقاساته تحته ===== */
 function colorRank(c){ const x = norm(c || 'ابيض'); return x === 'ابيض' ? 0 : x === 'اسود' ? 1 : 2; }
 function itemRank(i){ const k = ITEM_ORDER.map(norm).indexOf(norm(i)); return k < 0 ? 100 : k; }
-function sizeCmp(a, b){ const ua = a.unit === 'ج' ? 1 : 0, ub = b.unit === 'ج' ? 1 : 0; return ua - ub || a.sizeNum - b.sizeNum; }
+function sizeCmp(a, b){ const ua = a.unit === 'ج' ? 1 : 0, ub = b.unit === 'ج' ? 1 : 0; const na = a.sizeNum, nb = b.sizeNum; return ua - ub || (na === nb ? 0 : na < nb ? -1 : 1); }
 
 function organize(entries){
   const sections = [];
@@ -273,9 +272,14 @@ function organize(entries){
     groups.sort((a, b) => itemRank(a.item) - itemRank(b.item) || norm(a.item).localeCompare(norm(b.item), 'ar') || colorRank(a.color) - colorRank(b.color) || norm(a.color).localeCompare(norm(b.color), 'ar'));
     return groups.map(g => ({ label: g.item + (g.color && colorRank(g.color) ? ' ' + g.color : g.color ? ' ' + g.color : ''), rows: g.rows }));
   };
+  const flGroups = [], flIdx = {};
+  entries.filter(e => e.kind === 'flancha').forEach(e => { const k = norm(e.item) + '|' + norm(e.color || 'ابيض') + '|' + e.mode; if(!(k in flIdx)){ flIdx[k] = flGroups.length; flGroups.push({ item:e.item, color:e.color, mode:e.mode, rows:[] }); } flGroups[flIdx[k]].rows.push(e); });
+  flGroups.forEach(g => g.rows.sort(sizeCmp));
+  flGroups.sort((a, b) => itemRank(a.item) - itemRank(b.item) || norm(a.item).localeCompare(norm(b.item), 'ar') || colorRank(a.color) - colorRank(b.color) || (a.mode === b.mode ? 0 : a.mode === 'قائم' ? -1 : 1));
   const rolls = sortable('roll'), cartons = sortable('carton');
   if(rolls.length) sections.push({ key:'roll', title:'الاسطوانات', groups: rolls });
   if(cartons.length) sections.push({ key:'carton', title:'الكراتين', groups: cartons });
+  if(flGroups.length) sections.push({ key:'flancha', title:'الفلنشات', groups: flGroups.map(g => ({ label: g.item + (g.color ? ' ' + g.color : '') + ' ' + g.mode, rows: g.rows })) });
   const oroups = [], oidx = {};
   entries.filter(e => e.kind === 'order').forEach(e => { if(!(e.order in oidx)){ oidx[e.order] = oroups.length; oroups.push({ label:e.order, rows:[] }); } oroups[oidx[e.order]].rows.push(e); });
   if(oroups.length) sections.push({ key:'order', title:'الطلبيات', groups: oroups });
@@ -289,7 +293,7 @@ function fmtVal(e){
   if(e.value == null) return '';
   if(e.vtype === 'weight') return e.value.toFixed(3);
   if(e.vtype === 'rollcount') return e.value + ' أسطوانة';
-  if(e.vtype === 'reels') return 'عدد ' + e.value + 'بكرة';
+  if(e.vtype === 'reels') return e.value + ' بكرة' + (e.sacks > 1 ? ' × ' + e.sacks + ' شوال' : '');
   return String(e.value);
 }
 function toText(sections){
@@ -301,7 +305,7 @@ function toText(sections){
       s.groups.forEach(g => { const k = norm(g.rows[0].item); if(!(k in idx)){ idx[k] = byItem.length; byItem.push({ item:g.rows[0].item, rows:[] }); } byItem[idx[k]].rows.push(...g.rows); });
       byItem.forEach(b => {
         out.push(b.item);
-        b.rows.forEach(e => out.push(!e.size ? `${e.color}${e.value != null ? ' ' + e.value : ''}`.trim() : `${e.size}${!e.unit && !e.color ? e.item : ''}${e.color ? (e.unit ? ' ' : e.item + ' ') + e.color : ''}${e.value != null ? ' ' + e.value : ''}`));
+        b.rows.forEach(e => out.push(`${e.size}${!e.unit && !e.color ? e.item : ''}${e.color ? (e.unit ? ' ' : e.item + ' ') + e.color : ''}${e.value != null ? ' ' + e.value : ''}`));
         out.push('');
       });
       return;
@@ -310,7 +314,8 @@ function toText(sections){
       if(s.key === 'roll'){ g.rows.forEach(e => out.push(`${e.size}${e.unit ? ' ' : ''}${e.item}${e.color && colorRank(e.color) ? ' ' + e.color : ''} ${fmtVal(e)}`.replace(/\s+$/,''))); }
       else if(s.key === 'carton'){ return; }
       else if(s.key === 'order'){ out.push(g.label); g.rows.forEach(e => { if(e.color || e.value != null) out.push(`${e.color}${e.value != null ? ' ' + e.value : ''}`.trim()); }); }
-      else { g.rows.forEach(e => out.push(`شريط كود ${e.code} ${fmtVal(e)}`)); }
+      else if(s.key === 'flancha'){ g.rows.forEach(e => out.push(`${e.size}${e.unit ? ' ' : (e.size ? '' : '')}${e.size && !e.unit ? '' : ''}${e.item}${e.color ? ' ' + e.color : ''} ${e.mode}${e.value != null ? ' ' + e.value : ''}${e.sacks > 1 ? '...' + e.sacks : ''}`.trim())); }
+      else { g.rows.forEach(e => out.push(`شريط رقم ${e.code} عدد ${e.value}${e.sacks > 1 ? '...' + e.sacks : ''}`)); }
       out.push('');
     });
   });
@@ -352,6 +357,7 @@ function toText(sections){
     let chips = '';
     if(count('roll')) chips += `<span class="chip">اسطوانات ${count('roll')}</span>`;
     if(count('carton')) chips += `<span class="chip gold">كراتين ${count('carton')}</span>`;
+    if(count('flancha')) chips += `<span class="chip teal">فلنشات ${count('flancha')}</span>`;
     if(count('order')) chips += `<span class="chip olive">طلبيات ${count('order')}</span>`;
     if(count('ribbon')) chips += `<span class="chip plum">شرائط ${count('ribbon')}</span>`;
     const miss = flat.filter(e => e.value == null && e.kind !== 'order').length;
@@ -373,52 +379,56 @@ function toText(sections){
   }
   function rowLabel(e){
     if(e.kind === 'roll' || e.kind === 'carton') return `${e.size}${e.unit ? ' ' : ''}${e.item}${e.color ? ' ' + e.color : ''}`;
-    if(e.kind === 'ribbon') return 'شريط كود ' + e.code;
+    if(e.kind === 'ribbon') return 'شريط رقم ' + e.code;
+    if(e.kind === 'flancha') return `${e.size}${e.unit ? ' ' : ''}${e.item}${e.color ? ' ' + e.color : ''} ${e.mode}`;
     return e.color || e.order;
   }
   function valText(e){
     if(e.value == null) return '—';
     if(e.vtype === 'weight') return e.value.toFixed(3);
     if(e.vtype === 'rollcount') return e.value + ' أسطوانة';
-    if(e.vtype === 'reels') return e.value + ' بكرة';
+    if(e.vtype === 'reels') return e.value + ' بكرة' + (e.sacks > 1 ? ' × ' + e.sacks : '');
     return String(e.value);
   }
 
   /* ---------- شاشة العرض ---------- */
-  const PACK = { roll:'اسطوانات', carton:'كراتين' };
+  const PACK = { roll:'اسطوانات', carton:'كراتين', flancha:'فلنشات' };
   function dot(c){ const h = HEX[norm(c)]; return h ? `<span class="dot" style="background:${h}"></span>` : ''; }
   function headline(e){
     if(e.kind === 'order') return `<span>${esc(e.order)}</span>`;
-    if(e.kind === 'ribbon') return `<span>شريط</span><span class="h-size">كود ${esc(e.code)}</span>`;
+    if(e.kind === 'ribbon') return `<span>شريط رقم</span><span class="h-size">${esc(e.code)}</span>`;
     const color = e.color || (norm(e.item).startsWith('شريط') ? '' : 'أبيض');
-    return `<span class="h-size">${esc(e.size)}</span><span>${esc(e.item)}</span>` + (color ? `<span>${esc(color)}${dot(color)}</span>` : '') + `<span class="h-pack">${PACK[e.kind]}</span>`;
+    return (e.size ? `<span class="h-size">${esc(e.size)}</span>` : '') + `<span>${esc(e.item)}</span>` + (color ? `<span>${esc(color)}${dot(color)}</span>` : '') + `<span class="h-pack">${PACK[e.kind]}</span>` + (e.kind === 'flancha' ? `<span class="h-pack">${esc(e.mode)}</span>` : '');
   }
-  function show(){
-    const e = flat[idx];
-    const IT_CLS = { 'خفيف':'it-khafif', 'سوبر':'it-super', 'نسيج':'it-nasij', 'كروشيه':'it-crochet' };
-    const itc = (e.kind === 'roll' || e.kind === 'carton') ? (IT_CLS[norm(e.item).split(' ')[0]] || '') : '';
-    $('banner').className = 'banner ' + e.kind + (itc ? ' ' + itc : '');
-    $('banner').innerHTML = headline(e);
-    if(e.kind === 'order'){
-      $('count').textContent = (idx + 1) + ' / ' + flat.length;
-      $('valbox').innerHTML = `<div class="vlbl">اللون</div><div class="vnum txt">${e.color ? esc(e.color) + dot(e.color) : '—'}</div>` + (e.value != null ? `<div class="vunit">العدد ${esc(String(e.value))}</div>` : '');
-      $('bar').style.width = ((idx + 1) / flat.length * 100) + '%';
-      $('prev').disabled = idx === 0; $('next').disabled = idx === flat.length - 1;
-      lsSet(KEY_POS, String(idx));
-      return;
-    }
-    let label, unit = '';
-    if(e.vtype === 'weight'){ label = 'الوزن القائم'; unit = 'كيلو'; }
-    else if(e.vtype === 'rollcount'){ label = 'عدد الاسطوانات'; unit = 'أسطوانة'; }
-    else if(e.vtype === 'reels'){ label = 'عدد البكر'; unit = 'بكرة'; }
-    else if(e.kind === 'carton'){ label = 'عدد الكراتين'; unit = 'كرتونة'; }
-    else { label = 'العدد'; }
-    const miss = e.value == null;
-    $('valbox').innerHTML = `<div class="vlbl">${label}</div><div class="vnum${miss ? ' miss' : ''}">${miss ? '—' : esc(valText(e).replace(/ (أسطوانة|بكرة)$/, ''))}</div>` + (miss ? '<div class="vunit">مفيش رقم في التقرير</div>' : (unit ? `<div class="vunit">${unit}</div>` : ''));
+  function foot(){
     $('count').textContent = (idx + 1) + ' / ' + flat.length;
     $('bar').style.width = ((idx + 1) / flat.length * 100) + '%';
     $('prev').disabled = idx === 0; $('next').disabled = idx === flat.length - 1;
     lsSet(KEY_POS, String(idx));
+  }
+  const box = (lbl, num, unit, miss) => `<div class="vb"><div class="vlbl">${lbl}</div><div class="vnum${miss ? ' miss' : ''}">${esc(num)}</div>${unit ? `<div class="vunit">${unit}</div>` : ''}</div>`;
+  function show(){
+    const e = flat[idx], vb = $('valbox');
+    $('banner').className = 'banner ' + e.kind;
+    $('banner').innerHTML = headline(e);
+    vb.className = 'valbox';
+    if(e.kind === 'order'){
+      vb.innerHTML = `<div class="vlbl">اللون</div><div class="vnum txt">${e.color ? esc(e.color) + dot(e.color) : '—'}</div>` + (e.value != null ? `<div class="vunit">العدد ${esc(String(e.value))}</div>` : '');
+      foot(); return;
+    }
+    if(e.kind === 'flancha' || e.kind === 'ribbon'){
+      const miss = e.value == null, sk = e.sacks || 1;
+      vb.className = 'valbox two';
+      vb.innerHTML = box('عدد البكر في الشوال', miss ? '—' : e.value, miss ? 'مفيش رقم في التقرير' : 'بكرة', miss) + box('عدد الأشولة', sk, sk === 1 ? 'شوال' : 'أشولة');
+      foot(); return;
+    }
+    let label, unit = '';
+    if(e.vtype === 'weight'){ label = 'الوزن القائم'; unit = 'كيلو'; }
+    else if(e.vtype === 'rollcount'){ label = 'عدد الاسطوانات'; unit = 'أسطوانة'; }
+    else { label = 'عدد الكراتين'; unit = 'كرتونة'; }
+    const miss = e.value == null;
+    vb.innerHTML = `<div class="vlbl">${label}</div><div class="vnum${miss ? ' miss' : ''}">${miss ? '—' : esc(valText(e).replace(/ أسطوانة$/, ''))}</div>` + (miss ? '<div class="vunit">مفيش رقم في التقرير</div>' : (unit ? `<div class="vunit">${unit}</div>` : ''));
+    foot();
   }
   function applyRot(){ $('disp').classList.toggle('rot', lsGet(KEY_ROT, '1') === '1' && innerHeight > innerWidth); }
   const req = () => { try { if('wakeLock' in navigator) navigator.wakeLock.request('screen').then(l => wake = l, () => {}); } catch(e){} };
@@ -426,12 +436,9 @@ function toText(sections){
   function open(i){
     if(!flat.length) return;
     idx = Math.max(0, Math.min(flat.length - 1, i != null ? i : (parseInt(lsGet(KEY_POS, '0'), 10) || 0)));
-    $('disp').classList.add('show'); applyRot(); show(); req(); goFull();
+    $('disp').classList.add('show'); applyRot(); show(); req();
   }
-  function close(){ $('disp').classList.remove('show'); rel(); leaveFull(); }
-  function goFull(){ try { const d = document.documentElement; if(!document.fullscreenElement && d.requestFullscreen) d.requestFullscreen({ navigationUI:'hide' }).catch(() => {}); } catch(e){} }
-  function leaveFull(){ try { if(document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {}); } catch(e){} }
-  document.addEventListener('fullscreenchange', () => { applyRot(); });
+  function close(){ $('disp').classList.remove('show'); rel(); }
   function step(d){ idx = Math.max(0, Math.min(flat.length - 1, idx + d)); show(); }
 
   /* ---------- أحداث ---------- */
