@@ -270,7 +270,7 @@ function organize(entries){
     const rows = entries.filter(e => e.kind === kind);
     const groups = [], idx = {};
     rows.forEach(e => { const k = norm(e.item) + '|' + norm(e.color || 'ابيض'); if(!(k in idx)){ idx[k] = groups.length; groups.push({ item:e.item, color:e.color, rows:[] }); } groups[idx[k]].rows.push(e); });
-    groups.forEach(g => g.rows.sort(sizeCmp));
+    groups.forEach(g => g.rows.sort(kind === 'carton' ? (a, b) => ((b.value == null ? -1 : b.value) - (a.value == null ? -1 : a.value)) || sizeCmp(a, b) : sizeCmp));
     groups.sort((a, b) => itemRank(a.item) - itemRank(b.item) || norm(a.item).localeCompare(norm(b.item), 'ar') || colorRank(a.color) - colorRank(b.color) || norm(a.color).localeCompare(norm(b.color), 'ar'));
     return groups.map(g => ({ label: g.item + (g.color && colorRank(g.color) ? ' ' + g.color : g.color ? ' ' + g.color : ''), rows: g.rows }));
   };
@@ -346,6 +346,7 @@ function toText(sections){
     const r = parseReport(text);
     bad = r.bad;
     sections = organize(r.entries);
+    sections.forEach(s => { if(s.key === 'order') s.groups.forEach((g, i) => g.rows.forEach(r => { r.gi = i; })); });
     flat = flatten(sections);
     render();
   }
@@ -394,6 +395,26 @@ function toText(sections){
   }
 
   /* ---------- شاشة العرض ---------- */
+  const ITEM_COLORS = { 'نسيج':'#1E3A8A', 'كروشيه':'#9B1C1C', 'خفيف':'#A67C00', 'سوبر':'#1E6B3A' };
+  const ORDER_PALETTE = ['#6D3FA6', '#0F766E', '#B4532A', '#4D5B1F', '#9D3A68', '#374B5A'];
+  function bannerBg(e){
+    if(e.kind === 'order') return ORDER_PALETTE[(e.gi || 0) % ORDER_PALETTE.length];
+    if(e.kind === 'roll' || e.kind === 'carton' || e.kind === 'flancha') return ITEM_COLORS[norm(e.item).split(' ')[0]] || '';
+    return '';
+  }
+  function goFull(){
+    try {
+      const el = document.documentElement, f = el.requestFullscreen || el.webkitRequestFullscreen;
+      if(f && !document.fullscreenElement){
+        const r = f.call(el);
+        if(r && r.then) r.then(() => { try { screen.orientation.lock('landscape').catch(() => {}); } catch(e){} }).catch(() => {});
+      }
+    } catch(e){}
+  }
+  function leaveFull(){
+    try { if(screen.orientation && screen.orientation.unlock) screen.orientation.unlock(); } catch(e){}
+    try { if(document.fullscreenElement) document.exitFullscreen(); } catch(e){}
+  }
   const PACK = { roll:'اسطوانات', carton:'كراتين', flancha:'فلنشات' };
   function dot(c){ const h = HEX[norm(c)]; return h ? `<span class="dot" style="background:${h}"></span>` : ''; }
   function headline(e){
@@ -412,6 +433,7 @@ function toText(sections){
   function show(){
     const e = flat[idx], vb = $('valbox');
     $('banner').className = 'banner ' + e.kind;
+    $('banner').style.background = bannerBg(e);
     $('banner').innerHTML = headline(e);
     vb.className = 'valbox';
     if(e.kind === 'order'){
@@ -438,9 +460,9 @@ function toText(sections){
   function open(i){
     if(!flat.length) return;
     idx = Math.max(0, Math.min(flat.length - 1, i != null ? i : (parseInt(lsGet(KEY_POS, '0'), 10) || 0)));
-    $('disp').classList.add('show'); applyRot(); show(); req();
+    $('disp').classList.add('show'); applyRot(); show(); req(); goFull();
   }
-  function close(){ $('disp').classList.remove('show'); rel(); }
+  function close(){ $('disp').classList.remove('show'); rel(); leaveFull(); }
   function step(d){ idx = Math.max(0, Math.min(flat.length - 1, idx + d)); show(); }
 
   /* ---------- أحداث ---------- */
