@@ -70,8 +70,8 @@ details summary{font-family:var(--font-display);font-weight:800;cursor:pointer;f
 /* ---------- شاشة العرض ---------- */
 .disp{display:none;position:fixed;inset:0;z-index:100;background:var(--bg);}
 .disp.show{display:block;}
-.disp-inner{position:absolute;inset:0;display:flex;flex-direction:column;gap:2cqh;container-type:size;padding:3cqh 3cqw;}
-.disp.rot .disp-inner{inset:auto;top:0;left:0;width:calc(100vh - 84px);height:100vw;transform-origin:top left;transform:translateX(100vw) rotate(90deg);}
+.disp-inner{position:absolute;inset:0;display:flex;flex-direction:column;gap:10px;container-type:size;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));}
+.disp.rot .disp-inner{inset:auto;top:0;left:0;width:100vh;width:100dvh;height:100vw;height:100dvw;padding:12px;transform-origin:top left;transform:translateX(100vw) rotate(90deg);transform:translateX(100dvw) rotate(90deg);}
 .disp-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex:0 0 auto;}
 .disp-top button{border:1px solid var(--border);background:var(--surface);color:var(--fg);font-weight:700;font-size:max(13px,4.4cqh);border-radius:10px;padding:1.2cqh 3cqw;}
 .disp-count{font-family:var(--font-display);font-weight:800;color:var(--muted);font-size:max(14px,5cqh);}
@@ -83,17 +83,17 @@ details summary{font-family:var(--font-display);font-weight:800;cursor:pointer;f
 .banner .h-size{font-size:1.25em;}
 .banner .h-pack{font-size:.5em;background:rgba(255,255,255,.25);border-radius:999px;padding:.15em .8em;}
 .dot{display:inline-block;width:.7em;height:.7em;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.25);vertical-align:middle;margin-inline-start:.2em;}
-.valbox{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:center;text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
-.vlbl{font-weight:700;color:var(--muted);font-size:min(6cqh,3.8cqw);}
-.vnum{font-family:var(--font-display);font-weight:800;line-height:1.05;font-size:min(34cqh,17cqw);font-variant-numeric:tabular-nums;}
+.valbox{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:center;text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;container-type:size;padding:6px;}
+.vlbl{font-weight:700;color:var(--muted);font-size:min(12cqh,6cqw);line-height:1.3;}
+.vnum{font-family:var(--font-display);font-weight:800;line-height:1.05;font-size:min(48cqh,25cqw);font-variant-numeric:tabular-nums;}
 .vnum.miss{color:var(--muted);}
-.valbox.two{background:none;border:none;flex-direction:row;gap:3cqw;overflow:visible;}
-.valbox.two .vb{flex:1 1 0;min-width:0;background:var(--surface);border:1px solid var(--border);border-radius:16px;display:flex;flex-direction:column;justify-content:center;text-align:center;overflow:hidden;padding:1cqh 1cqw;}
-.valbox.two .vnum{font-size:min(30cqh,13cqw);}
-.vnum.txt{font-size:min(24cqh,11cqw);}
+.valbox.two{background:none;border:none;flex-direction:row;gap:10px;overflow:visible;padding:0;container-type:normal;}
+.valbox.two .vb{flex:1 1 0;min-width:0;background:var(--surface);border:1px solid var(--border);border-radius:16px;display:flex;flex-direction:column;justify-content:center;text-align:center;overflow:hidden;container-type:size;padding:6px;}
+.valbox.two .vnum{font-size:min(48cqh,34cqw);}
+.vnum.txt{font-size:min(38cqh,15cqw);}
 .vnum .dot{border-color:var(--border);}
-.vunit{font-weight:700;color:var(--muted);font-size:min(5.2cqh,3.4cqw);}
-.disp-nav{display:flex;align-items:center;gap:3cqw;flex:0 0 auto;}
+.vunit{font-weight:700;color:var(--muted);font-size:min(10cqh,5cqw);line-height:1.3;}
+.disp-nav{display:flex;align-items:center;gap:10px;flex:0 0 auto;}
 .nbtn{flex:0 0 28cqw;min-height:48px;height:14cqh;border-radius:14px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-family:var(--font-display);font-weight:800;font-size:max(16px,6cqh);}
 .nbtn.primary{background:var(--accent);color:#fff;}
 .nbtn:disabled{opacity:.35;}
