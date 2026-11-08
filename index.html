@@ -183,7 +183,7 @@ function parseReport(text){
     orderName = null; orderCount = 0;
   };
   digits(String(text || '')).split(/\r?\n/).forEach(rawLine => {
-    const line = rawLine.replace(/[\u200e\u200f\u202a-\u202e]/g,'').replace(/\u0640/g,'').replace(/\s+/g,' ').trim();
+    const line = rawLine.replace(/[*_~`]/g,'').replace(/[\u200e\u200f\u202a-\u202e]/g,'').replace(/\u0640/g,'').replace(/\s+/g,' ').trim();
     if(!line){ closeOrder(); return; }
     const n = norm(line);
 
@@ -236,7 +236,9 @@ function parseReport(text){
       let item = header, color = '';
       if(words.length){
         const ic = splitItemColor(words);
-        if(ic){ item = ic.item; color = ic.color; } else { color = words.join(' '); }
+        if(ic){ item = ic.item; color = ic.color; }
+        else if(header && norm(words[0]) === 'خاص'){ item = header + ' خاص'; color = words.slice(1).join(' '); }
+        else { color = words.join(' '); }
       }
       if(!item){ bad.push(line); return; }
       entries.push(Object.assign(base, { kind:'carton', item, color:pretty(color), value, vtype:'count' }));
@@ -248,9 +250,9 @@ function parseReport(text){
 
     // غير كده: اسم طلبية، وبعدها سطور ألوانها
     if(!orderName){ header = null; orderName = line; orderCount = 0; return; }
-    const om = line.match(/^(.*?)\s*(\d+)\s*$/);
+    const om = line.match(/^(.*?)\s*(\d+(?:\.\d+)?)\s*$/);
     const label = (om ? om[1] : line).trim();
-    entries.push({ id:'e'+(++_id), kind:'order', order:orderName, color:label, value: om ? +om[2] : null, vtype:'count', raw:line });
+    entries.push({ id:'e'+(++_id), kind:'order', order:orderName, color:label, value: om ? parseFloat(om[2]) : null, vtype: om && om[2].includes('.') ? 'weight' : 'count', raw:line });
     orderCount++;
   });
   closeOrder();
@@ -313,7 +315,7 @@ function toText(sections){
     s.groups.forEach(g => {
       if(s.key === 'roll'){ g.rows.forEach(e => out.push(`${e.size}${e.unit ? ' ' : ''}${e.item}${e.color && colorRank(e.color) ? ' ' + e.color : ''} ${fmtVal(e)}`.replace(/\s+$/,''))); }
       else if(s.key === 'carton'){ return; }
-      else if(s.key === 'order'){ out.push(g.label); g.rows.forEach(e => { if(e.color || e.value != null) out.push(`${e.color}${e.value != null ? ' ' + e.value : ''}`.trim()); }); }
+      else if(s.key === 'order'){ out.push(g.label); g.rows.forEach(e => { if(e.color || e.value != null) out.push(`${e.color}${e.value != null ? ' ' + (e.vtype === 'weight' ? e.value.toFixed(3) : e.value) : ''}`.trim()); }); }
       else if(s.key === 'flancha'){ g.rows.forEach(e => out.push(`${e.size}${e.unit ? ' ' : (e.size ? '' : '')}${e.size && !e.unit ? '' : ''}${e.item}${e.color ? ' ' + e.color : ''} ${e.mode}${e.value != null ? ' ' + e.value : ''}${e.sacks > 1 ? '...' + e.sacks : ''}`.trim())); }
       else { g.rows.forEach(e => out.push(`شريط رقم ${e.code} عدد ${e.value}${e.sacks > 1 ? '...' + e.sacks : ''}`)); }
       out.push('');
@@ -413,7 +415,7 @@ function toText(sections){
     $('banner').innerHTML = headline(e);
     vb.className = 'valbox';
     if(e.kind === 'order'){
-      vb.innerHTML = `<div class="vlbl">اللون</div><div class="vnum txt">${e.color ? esc(e.color) + dot(e.color) : '—'}</div>` + (e.value != null ? `<div class="vunit">العدد ${esc(String(e.value))}</div>` : '');
+      vb.innerHTML = `<div class="vlbl">اللون</div><div class="vnum txt">${e.color ? esc(e.color) + dot(e.color) : '—'}</div>` + (e.value != null ? `<div class="vunit">${e.vtype === 'weight' ? 'الوزن ' + e.value.toFixed(3) + ' كيلو' : 'العدد ' + esc(String(e.value))}</div>` : '');
       foot(); return;
     }
     if(e.kind === 'flancha' || e.kind === 'ribbon'){
